@@ -7,7 +7,6 @@ from joblib import load
 import time
 from sklearn.preprocessing import StandardScaler
 
-
 PORT_NUMBER = 8080
 start = time.time()
 
@@ -32,7 +31,7 @@ class Iris(object):
     def on_get(self, req, resp, index):
         if index < X_count:
             y_pred = clf.predict(X_scaled[index].reshape(1, -1))
-            payload = {'index': index, 'predicted_label': list(labels)[y_pred[0]], 'predicted': y_pred[0]}
+            payload = {'index': index, 'predicted_label': list(labels)[y_pred[0]], 'predicted': int(y_pred[0])}
             resp.body = json.dumps(payload)
             resp.status = falcon.HTTP_200
         else:
@@ -40,6 +39,7 @@ class Iris(object):
                 "Index Out of Range. ",
                 "The requested index must be between 0 and {:d}, inclusive.".format(X_count - 1)
             )
+
 
 # API Handler for API example message
 class Intro(object):
